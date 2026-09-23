@@ -1,142 +1,92 @@
-# Unit 1 selection
+# Unit 1 — Issue Selection
 
-## Chosen issue
+Path: `beat-1-sandbox/unit-1/selection.md`
 
-https://github.com/codepath/pathreview-ai301-fa26-s3/issues/68
+Record of the issue carried into Unit 2, and of the evaluation runs that produced
+`eval-run.txt`. This file is graded at the path above; a copy kept anywhere else in
+the repository is not read.
 
-`Keyword search raises ZeroDivisionError when the index is empty` (#68),
-labelled `bug`, `good first issue`, `rag`, `tier-1`. Opened by
-`Aburke225` on 10 September 2026. No assignee, no linked pull requests,
-no comments on the thread.
+Complete every labelled field below. Each is graded on its own; content placed under the
+wrong label is not graded.
 
-## Run history
+---
 
-<!-- FILL IN after your confirming full eval run: the harness prints the
-agreement count and the bar verdict. Replace the bracketed figures with
-what the run actually reports, and keep the narrative honest about how
-many passes it took. -->
+## Selected issue
 
-The rubric went in one revision pass:
+**Issue link**
 
-1. **First draft.** Five required checks, one per criterion family from
-   the lecture (maintainer alive, repo in use, scope fits, nobody on it)
-   plus the contribution-policy surface. Recency thresholds written
-   against "today" rather than the bundle capture date.
-2. **Fix after reading the harness docs.** Every recency threshold now
-   reads against the bundle's stated capture date in eval mode and
-   today in live mode, because `eval/README.md` and the evidence guide
-   both measure that way. Without this the maintainer-commits and
-   repo-alive checks drift on every frozen bundle.
-3. **Split maintainer life from maintainer responsiveness.** The first
-   draft folded "recent commits" and "answers issues" into one check, so
-   a repo with a busy solo committer who never replies to issues passed.
-   They are now `maintainer-commits` and `maintainer-answers`, both
-   required.
-4. **Confirming full run.** `python3 run_eval.py --rubric
-   ~/.claude/skills/issue-select/rubric.md --save-run eval-run.txt`
-   agreed on [N]/20, [pass|miss] against the bar.
+https://github.com/codepath/pathreview-ai301-fa26-s3/issues/69
 
-## Issue analysis
+**Verdict output**
 
-Against my own rubric, graded from the live issue and repo:
+```
+Grading issue #69: Output parser crashes on a top-level JSON array fallback
 
-- `maintainer-commits`: the repo is actively committed to and the issue
-  was opened by the course maintainer account nine days before I looked.
-  Pass.
-- `maintainer-answers`: Path Review is instructor-run and issues are
-  triaged by the same maintainer account that opens them. Pass.
-- `repo-alive`: not archived, public, 71 open issues and active forks.
-  Pass.
-- `scope-bounded`: this is the strongest signal on the issue. The body
-  names the defect precisely, `KeywordSearcher.index()` hands its
-  tokenized corpus to `BM25Okapi`, so `index([])` raises
-  `ZeroDivisionError` inside `rank-bm25`, and it names the fix's shape:
-  `search()` already handles the empty case, so `index()` should not
-  raise either. It names both files, `rag/retriever/keyword_search.py`
-  and `tests/unit/test_keyword_search.py`, and it names the finish
-  line: remove the `@pytest.mark.xfail` marker for manifest id H-01.
-  Estimated effort 2 to 4 hours. No umbrella list, no design debate.
-  Pass.
-- `unclaimed`: no assignee, no linked PRs, no comments at all. Pass.
-- `ai-contributions-allowed`: Path Review is the course's own repo and
-  the course workflow is AI-assisted by design, so there is no ban to
-  trip over. Pass.
+Check results:
+- maintainer-commits: pass — Last commit 2026-09-16 by Aburke225 (human), within 90 days
+- repo-alive: pass — Not archived, push within 90 days (2026-09-16)
+- scope-bounded: pass — Single bounded bug fix with clear reproduction and named files
+- unclaimed: pass — No assignees, no open linked PRs; classmate claim comments allowed per Path Review house rule
+- ai-contributions-allowed: pass — No stated policy restriction
+- reproducible-ask: pass — Body names expected vs actual behavior and specific files
+- entry-labelled: pass — Has "good first issue" and "tier-1" labels
+- files-named: pass — Body names rag/generator/output_parser.py and tests/unit/test_output_parser.py
 
-All six required checks pass, so the verdict is accept. On the preferred
-checks it takes all three: `reproducible-ask` (expected-versus-actual
-plus a named xfail test), `entry-labelled` (`good first issue` and
-`tier-1`), and `files-named` (both paths given).
+Summary: RAG JSON parsing bug with clear scope, named files, and test coverage. Excellent fit for Python/RAG profile.
 
-## Check rationale
+{
+  "item": "https://github.com/codepath/pathreview-ai301-fa26-s3/issues/69",
+  "checks": [
+    {"name": "maintainer-commits", "grade": "pass", "evidence": "Last commit 2026-09-16 by Aburke225, within 90 days"},
+    {"name": "repo-alive", "grade": "pass", "evidence": "Not archived, pushed 2026-09-16"},
+    {"name": "scope-bounded", "grade": "pass", "evidence": "Single bug fix: handle array responses in output_parser.py"},
+    {"name": "unclaimed", "grade": "pass", "evidence": "No assignees, no open linked PRs"},
+    {"name": "ai-contributions-allowed", "grade": "pass", "evidence": "No AI policy stated"},
+    {"name": "reproducible-ask", "grade": "pass", "evidence": "Body names AttributeError on .items() call"},
+    {"name": "entry-labelled", "grade": "pass", "evidence": "Labels: good first issue, tier-1"},
+    {"name": "files-named", "grade": "pass", "evidence": "rag/generator/output_parser.py, tests/unit/test_output_parser.py"}
+  ],
+  "verdict": "accept"
+}
+```
 
-The four lecture families are each one required check, and I added a
-fifth surface and split one family in two, for six required checks
-total.
+---
 
-`maintainer-commits` and `maintainer-answers` are separate because they
-fail separately. A repo can have daily commits from one person who never
-answers an issue, which is exactly the repo where a newcomer's pull
-request rots. Commits measure whether anyone is there; first-response
-latency measures whether they will look at me. Folding them into one
-check lets a fail on the half that matters hide behind a pass on the
-half that does not.
+## Eval iterations
 
-Thresholds over adjectives, everywhere I could get a number: 90 days for
-commits and pushes, 365 for a release, 30 days for a maintainer reply
-and for an outside claim. The 90/365 split is deliberate. A library can
-be healthy and not cut a release for most of a year, so release recency
-gets the loose bound and commit recency gets the tight one, and
-`repo-alive` passes on either.
+**Run history**
 
-`unclaimed` is where the Path Review house rule bites. In the wider world
-a classmate-style "I'll take this" comment is a real claim; in this
-classroom it is not, and several students on one issue is normal. So the
-check counts only assignees, open linked PRs, and outside claims a
-maintainer acknowledged. That keeps the check meaningful in live mode on
-real repos later, without rejecting every popular Path Review issue now.
+1. 12/20 — Initial rubric with maintainer-answers (30-day threshold too strict)
+2. 17/20 — Removed maintainer-answers, improved scope-bounded
+3. 18/20 — Refined scope-bounded to distinguish umbrella issues from detailed single tasks
 
-`ai-contributions-allowed` is the fifth surface, and it is required
-rather than preferred because a stated ban is fatal regardless of how
-good the issue is. The condition is written narrowly: an outright ban
-fails, and disclosure or human-review conditions pass, because treating
-every AI clause as a ban would reject most of the repos I will meet.
+**Issue analysis**
 
-`unclear` counts as `fail` on required checks. The asymmetry is
-intentional. The cost of wrongly rejecting a fine issue is that I pick
-the next one on the list; the cost of wrongly accepting one is weeks
-spent on work nobody will merge.
+issue-04 (gold: accept, rubric: reject). My rubric rejected this issue on scope-bounded because the issue body is terse: "Missing several basic rule previews. Including remove identity, fuse spiders, remove self loops, etc." The gold label accepts it because it's a maintainer-filed bounded bug (RazinShaikh is a COLLABORATOR) with clear behavior description. My rubric's word-count threshold for underspecified issues caught this false positive because it didn't account for maintainer-filed brief issues being inherently more trustworthy.
 
-## Trade-offs
+**Check rationale**
 
-The strictness is the main one. Six required checks with `unclear` as
-`fail` means the rubric rejects issues a more forgiving reader would
-take, and it will lose points on any eval bundle where the gold label is
-accept but a single signal is genuinely absent from the snapshot. I took
-that deliberately: a false accept costs a newcomer far more than a false
-reject, and the rubric is honest that it is tuned that way rather than
-pretending to be balanced.
+```
+| scope-bounded | The issue body, comment count, and the full comment thread; linked PRs under Repo facts | The issue asks for one coherent change (bug fix, feature, or docs task), AND none of these is true: (1) it explicitly labels itself as an umbrella, tracking, or meta-issue with separate sub-tasks to be claimed independently; (2) the thread has more than 30 comments showing extended design debate with no maintainer settlement; (3) there are 2 or more closed unmerged linked PRs indicating repeated abandoned attempts; (4) the issue is a usage or support question rather than a change to the code; (5) the issue body is under 50 words AND lacks any of: acceptance criteria, expected behavior description, reproduction steps, or specific files to change (a terse feature wish with no specification fails; a terse bug report from a maintainer with clear behavior description passes) | required |
+```
 
-The numbers are the second one. 90 days, 365 days, 30 days are defensible
-but not derived from anything: they are the bounds that separated the
-calibration bundles cleanly. A repo that pushes every 100 days fails
-`maintainer-commits` on a technicality it does not deserve, and the
-`repo-alive` release-or-push disjunction is the hedge I built for exactly
-that. If the full run disagrees on a healthy-but-slow repo, the threshold
-is the thing to move, not the check.
+This check evolved through iterations to catch three failure modes: (1) umbrella issues that look like single tasks but list independent sub-items, (2) issues with years of design debate and abandoned PRs, and (3) underspecified feature wishes. The 30-comment and 2-closed-PR thresholds came from observing issue-15 (97 comments, 2 closed PRs) which should reject.
 
-Third, `scope-bounded` is the one required check with no number in it,
-because the thing it measures does not have one. Effort estimates are not
-on most real issues, and a line count would be a guess about a fix I have
-not written. So it is a list of disqualifiers drawn from the evidence
-guide (umbrella issue, unsettled design debate, maintainer says core
-internals, usage question) rather than a threshold. It is the check most
-likely to grade differently between two careful readers, and the one I
-would rewrite first if the eval disagrees.
+**Trade-offs**
 
-Finally, the fit profile in `scope.md` is doing real ranking work here.
-#68 and #69 (`Output parser crashes on a top-level JSON array fallback`)
-both pass every required check and both take all three preferred ones.
-#68 wins on fit: it is retrieval code with a named failing test to
-un-xfail, which is exactly the validation-at-the-boundary work I said I
-wanted. Fit never rescued or sank a verdict, it only ordered two issues
-the rubric had already accepted.
+The scope-bounded check still misses issue-04 (a terse maintainer-filed bug). The 50-word threshold with the "maintainer passes" exception in condition (5) was meant to handle this, but the model still rejected it. Accepting this trade-off: the check correctly rejects 3/4 scope issues and catches the underspecified feature wishes (issue-20) that would waste contributor time. A more complex rule risks overfitting to the eval set.
+
+---
+
+## Selection rationale
+
+1. **Fit to interests and time:** Issue #69 is a RAG/JSON parsing bug in Python, directly matching my experience with retrieval pipelines and LLM systems. The estimated effort (2-4 hours) and tier-1 difficulty fit the course timeline. The test file is already present with an xfail marker, so reproduction is straightforward.
+
+2. **Verdict accuracy:** The rubric correctly identified all passing signals: bounded scope, named files, good-first-issue label, no assignee. What the rubric couldn't weigh: this specific bug (list vs dict handling) is a common Python pattern I've debugged before, making it lower-risk than the rubric alone suggests.
+
+3. **Claiming difficulty:** Two classmates have already commented claiming the issue, but per Path Review house rules, classmate claims don't block. Course credit attaches to the PR, not exclusivity. Low difficulty to claim.
+
+---
+
+Related paths: `eval-run.txt` in this directory; your skill's files in
+`tools/issue-select/`.
