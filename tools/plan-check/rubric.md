@@ -1,0 +1,18 @@
+# Rubric: is this plan ready to post and build from?
+
+## Checks
+
+| Check | Evidence | Pass condition | Weight |
+|---|---|---|---|
+| diagnosis-grounded | The plan's stated cause read against the repro evidence's artifacts and control runs | The diagnosis explains the behavior the repro evidence shows, and does NOT contradict any control run in the repro evidence. If the repro shows a control where removing X makes the bug disappear, the diagnosis must involve X. If the diagnosis blames component A but the repro evidence rules A out (e.g., control run shows A works fine), the check fails. | required |
+| scope-bounded | The plan's in-scope and not-in-scope statements, the files named, and the approach description | The plan describes ONE bounded change that addresses the issue, NOT a redesign, migration, refactor campaign, or bundle of while-in-the-area work. The not-in-scope line explicitly excludes tangential improvements. If the plan adds features, reworks architecture, or bundles unrelated changes with the fix, the check fails. | required |
+| executable-by-stranger | The plan's files section, approach section, and any stated order of work | A stranger who has never seen the codebase could start executing the plan without asking the author anything: files are named, the approach is concrete (not "investigate" or "poke around"), and the order of work is clear enough to begin. "Fix it somewhere in the codebase" fails; "add saturating_sub at src/printer.rs:934" passes. | required |
+| test-plan-decisive | The plan's test plan section read against the repro evidence | The test plan names a specific observable outcome that would prove the fix works: re-run the repro command and expect exit 0, observe the artifact change, add a regression test with a named input/output. "Run the test suite" or "nothing else should break" fails; "re-run the repro, expect exit 0 and the header present" passes. | required |
+| unknowns-stated | The plan's risks or unknowns section, or their absence | If the plan has genuine uncertainties (untested paths, deferred investigation, areas that might need more work), they are stated explicitly rather than hidden behind false confidence. A plan that says "I'll note anything suspicious in the PR" is honest; a plan that says "this will definitely fix it" when the diagnosis is uncertain is not. An empty unknowns section is acceptable if the plan is straightforward and complete. | required |
+| ai-disclosed | The plan comment read against the repo's contribution policy in Repo facts | If the contribution policy requires AI-usage disclosure, the plan comment includes a disclosure statement. If the policy is silent or permissive, this check passes. Course packages are treated as AI-assisted work. | required |
+| engages-thread | The plan comment read against the thread highlights | If the thread highlights contain explicit maintainer direction (culprit identified, approach requested, testing asked for), the plan comment acknowledges or engages that direction rather than ignoring it. If the thread has no maintainer direction, this check passes. | required |
+| deviation-recorded | The plan's deviation section, if present | If the plan records a mid-build deviation (actual work differed from original plan), the deviation is explained with what changed and why. Plans without deviations pass this check by default. | preferred |
+
+## Verdict rule
+
+Accept if every required check passes. Reject if any required check fails. Preferred checks never change the verdict; they rank accepted packages. Treat `unclear` as `fail` on required checks: a plan you cannot verify from the package is a plan that is not ready to build from.
