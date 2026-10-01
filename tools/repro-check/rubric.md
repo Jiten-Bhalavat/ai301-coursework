@@ -1,0 +1,18 @@
+# Rubric: is this reproduction package ready to post?
+
+## Checks
+
+| Check | Evidence | Pass condition | Weight |
+|---|---|---|---|
+| env-recorded | The repro report's environment section | The report names the operating system and the tool/library version being tested; for CLI tools, the exact version string (e.g., "bat 0.26.1"); for libraries, the version and runtime (e.g., "pandas 2.2.0, Python 3.12"). Missing OS or missing tool version fails. | required |
+| steps-followable | The repro report's steps section read against the issue's trigger | The steps start from a state a stranger can reach (installed tool, empty directory, or named setup), include every command or action needed to trigger the behavior, and do not reference private resources (monorepos, unshared configs) a stranger cannot access. Steps that say "set up the project" without commands, or that require access to private repos, fail. | required |
+| artifact-shows-issue | The repro report's output/artifact read against the issue's described behavior | The artifact (output excerpt, log, screenshot, error message) shows the SAME behavior the issue describes, not an adjacent one. If the issue says "exit 101 capacity overflow" and the artifact shows "exit 1 invalid value", that's wrong-target and fails. If the issue says "Content-Type missing" and the artifact shows Content-Type missing, that passes. The test is: does this artifact prove THIS bug, or a different bug? | required |
+| honest-outcome | The repro report's stated conclusion read against its own artifacts | The report's conclusion (reproduced, cannot-reproduce, partially-reproduced) matches what its artifacts actually show. A report that says "confirmed the crash" but shows a validation error fails. A report that honestly says "could not reproduce, here's what I tried and what differed" passes. Confidence without matching evidence fails; humble accuracy passes. | required |
+| ai-disclosed | The claim comment and repro report read against the repo's contribution policy in Repo facts | If the contribution policy requires AI-usage disclosure (words like "must disclose", "state the tool used", "all AI usage must be disclosed"), then the comments must include a disclosure statement. If the policy is silent or permissive-without-disclosure, this check passes. Course packages are treated as AI-assisted work. | required |
+| claim-specific | The claim comment read against the issue | The claim comment shows specific intent: it names what was done (reproduced, investigated), what will be done next (test the patch, look at the code path), or both. Generic "+1", "I'll work on this", "assigning myself" without specifics fails. A claim that mentions the actual behavior or files passes. | required |
+| control-run | The repro report's artifacts | The report includes a control run (a run with the trigger removed, or a run showing expected behavior) that contrasts with the failing run. A reproduction with only the failing case is acceptable but less convincing. | preferred |
+| version-delta-noted | The repro report's environment read against the issue's stated version | If the issue names a specific version and the repro uses a different version, the report acknowledges the difference. Silent version deviations (testing 1.5.3 against an issue confirmed on 2.0.0 without noting it) fail. Same version or acknowledged deviation passes. | preferred |
+
+## Verdict rule
+
+Accept if every required check passes. Reject if any required check fails. Preferred checks never change the verdict; they rank accepted packages. Treat `unclear` as `fail` on required checks: a reproduction you cannot verify is not ready to post.
