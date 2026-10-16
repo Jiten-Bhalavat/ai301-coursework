@@ -7,12 +7,11 @@ the repository is not read. **Keep every section header below under its exact na
 format criteria grade exactly that. Your course repo link is the whole submission: no tool
 files and no evidence uploads are part of Assignment 5.
 
-**Contribution Number:** [1]
-**Student:** [Student name]
-**GitHub Username:** [your GitHub username, exactly as it appears on your profile - no @, no
-profile URL. Your comments upstream are identified by this name.]
-**Issue:** [GitHub issue link]
-**Pull Request:** [GitHub PR link, once opened]
+**Contribution Number:** 1
+**Student:** Jiten Bhalavat
+**GitHub Username:** Jiten-Bhalavat
+**Issue:** [pending - will be selected via scout scan]
+**Pull Request:** [pending]
 
 One repository, built across units 5 to 8, telling the whole story of your real
 contribution. Fill it as you work, not at the end — the sections below ask for evidence that
@@ -55,10 +54,9 @@ happened; these entries are the toolkit's own timeline.
 All four entries are graded. Keep every heading below, and fill each
 one in the week it belongs to.
 
-**Unit 5: [one line on the tool work]**
+**Unit 5: Built issue-scout with search strategy targeting Python RAG/parsing/test issues**
 
-[2-4 sentences: what you built (the scout, your strategy), what broke
-or fell short, what changed because of it.]
+Installed issue-scout as an overlay onto issue-select, keeping the rubric from Unit 1 and adding a search-strategy.md with 5 queries targeting my fit profile: Python RAG/retrieval, parsing/validation, test/pytest, FastAPI, and LLM framework issues. Ran Unit 1 eval to verify the rubric still works (19/20 PASS). The ranking filters drop assigned issues, stale issues (>90 days), and high-comment issues (>10), then prefer issues naming specific files. One edge case: issue-20 (a bot-filed feature request with thin spec) graded accept when gold said reject, but the 19/20 score is above the 18/20 bar so no rubric change was needed.
 
 **Unit 6: [one line on the tool work]**
 
