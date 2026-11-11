@@ -78,7 +78,7 @@ I found issue #69 through my issue-scout scan targeting Python parsing and test-
 
 My scout's verdict was accept: the repo is active (commits within days), no assignee, labeled `good first issue`, clear reproduction steps, specific files named (`rag/generator/output_parser.py`, `tests/unit/test_output_parser.py`), and the scope was bounded to a single function fix. The issue fit my profile's preference for "writing tests that actually pin the behaviour" - in this case, I'd be removing an xfail marker by actually fixing the code.
 
-**Claim comment:** https://github.com/codepath/pathreview-ai301-fa26-s3/issues/69#issuecomment-2418912345 (posted claiming the issue for AI301 coursework)
+**Claim comment:** https://github.com/codepath/pathreview-ai301-fa26-s3/issues/69#issuecomment-5923010787 (posted claiming the issue for AI301 coursework)
 
 **Toolkit**
 
